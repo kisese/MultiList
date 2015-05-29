@@ -9,22 +9,26 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DBOpenHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "LIVE_DB";
-    public static final String TABLE_NAME = "live_shopping";
+    public static final String DATABASE_NAME = "QUIZ_DB";
+    public static final String TABLE_NAME = "live_quiz";
 
 
     public static final int VERSION = 1;
     public static final String KEY_ID = "id";
     public static final String KEY_DATE = "date";
-    public static final String KEY_MSG_IN = "name";
-    public static final String KEY_MSG_OUT = "price";
+    public static final String KEY_MSG = "message";
+    public static final String KEY_INDEX = "key_index";
+    public static final String KEY_TYPE = "type";
+    public static final String KEY_ANSWERED = "answered";
 
 
     public static final String SCRIPT = "create table " + TABLE_NAME + " ("
             + KEY_ID + " integer primary key autoincrement not null, " +
             KEY_DATE+ " text not null, " +
-            KEY_MSG_IN+ " text not null, " +
-            KEY_MSG_OUT + " text not null);";
+            KEY_MSG+ " text not null, " +
+            KEY_INDEX+ " text not null, " +
+            KEY_TYPE+ " text not null, " +
+            KEY_ANSWERED + " text not null);";
 
 
 

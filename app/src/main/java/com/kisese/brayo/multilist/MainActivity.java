@@ -3,6 +3,7 @@ package com.kisese.brayo.multilist;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -31,9 +32,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import storage.DBOpenHelper;
+import storage.MessagesTableAdapter;
+
 
 public class MainActivity extends ActionBarActivity {
 
+    MessagesTableAdapter adapter;
+    DBOpenHelper helper_ob;
 
     private ListView listView;
     private EditText chatText;
@@ -57,9 +63,14 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-        setContentView(R.layout.activity_main); // here, you can create a single layout with a listview
+        setContentView(R.layout.activity_main);
+
+        adapter = new MessagesTableAdapter(this);
 
         new ProcessActivity().execute("Home");
+
+
+
 
         listView = (ListView) findViewById(R.id.listView1);
         chatText = (EditText)findViewById(R.id.chatText);
@@ -67,7 +78,15 @@ public class MainActivity extends ActionBarActivity {
 
 
         //final ListViewItem[] items = new ListViewItem[40];
+       // items.add(items.size(), new ListViewItem(question, CustomAdapter.TYPE_QUESTION, false));
+
         items = new ArrayList<ListViewItem>();
+
+        int size = adapter.getCount();
+        Cursor cursor = adapter.queryAll();
+
+
+
 
         //items.add(0, new ListViewItem("White ", CustomAdapter.TYPE_QUESTION));
         //items.add(1, new ListViewItem("Black ", CustomAdapter.TYPE_ANSWER));
@@ -100,21 +119,23 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 answer = chatText.getText().toString();
                 if(items.size() < 1) {
-                    items.add(0,  new ListViewItem(answer, CustomAdapter.TYPE_ANSWER, false));
+                    items.add(0, new ListViewItem(answer, CustomAdapter.TYPE_ANSWER, false));
                     scrollMyList();
                     answer = chatText.getText().toString();
-                    chatText.setText("");
+                    adapter.insertDetails(date, answer, 0, CustomAdapter.TYPE_ANSWER, false);
                     new ProcessActivity().execute(answer);
                     scrollMyList();
                     Toast.makeText(MainActivity.this, answer, Toast.LENGTH_LONG).show();
+                    chatText.setText("");
                 }else{
                     items.add(items.size(), new ListViewItem(answer, CustomAdapter.TYPE_ANSWER, false));
                     scrollMyList();
                     answer = chatText.getText().toString();
-                    chatText.setText("");
+                    adapter.insertDetails(date, answer, 0, CustomAdapter.TYPE_ANSWER, false);
                     new ProcessActivity().execute(answer);
                     scrollMyList();
                     Toast.makeText(MainActivity.this, answer, Toast.LENGTH_LONG).show();
+                    chatText.setText("");
                 }
             }
         });
@@ -237,7 +258,7 @@ public class MainActivity extends ActionBarActivity {
             items.add(items.size(), new ListViewItem(question,
                     CustomAdapter.TYPE_QUESTION, false));
 
-
+            adapter.insertDetails(date, question, 0, CustomAdapter.TYPE_QUESTION, false);
 
             scrollMyList();
 

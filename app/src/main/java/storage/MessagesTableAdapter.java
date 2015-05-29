@@ -37,12 +37,14 @@ public class MessagesTableAdapter {
         database_ob.close();
     }
 
-    public long insertDetails( String date, String name, String price, String quantity, String description) {
+    public long insertDetails( String date, String message, int index, int type, boolean answered) {
         ContentValues contentValues = new ContentValues();
         // contentValues.put(openHelper_ob.KEY_ID, id);
         contentValues.put(openHelper_ob.KEY_DATE, date);
-        contentValues.put(openHelper_ob.KEY_MSG_IN, name);
-        contentValues.put(openHelper_ob.KEY_MSG_OUT, price);
+        contentValues.put(openHelper_ob.KEY_MSG, message);
+        contentValues.put(openHelper_ob.KEY_INDEX, index);
+        contentValues.put(openHelper_ob.KEY_TYPE, type);
+        contentValues.put(openHelper_ob.KEY_ANSWERED, answered);
         opnToWrite();
         long val = database_ob.insert(openHelper_ob.TABLE_NAME, null,
                 contentValues);
@@ -51,8 +53,8 @@ public class MessagesTableAdapter {
     }
 
     public Cursor queryAll() {
-        String[] cols = { openHelper_ob.KEY_ID, openHelper_ob.KEY_DATE, openHelper_ob.KEY_MSG_IN
-                , openHelper_ob.KEY_MSG_OUT};
+        String[] cols = { openHelper_ob.KEY_ID, openHelper_ob.KEY_DATE, openHelper_ob.KEY_MSG
+                , openHelper_ob.KEY_INDEX, openHelper_ob.KEY_TYPE, openHelper_ob.KEY_ANSWERED};
         opnToWrite();
         Cursor c = database_ob.query(openHelper_ob.TABLE_NAME, cols, null,
                 null, null, null,  openHelper_ob.KEY_DATE + " desc");
@@ -62,8 +64,8 @@ public class MessagesTableAdapter {
     }
 
     public Cursor queryFilter(String filter) {
-        String[] cols = { openHelper_ob.KEY_ID, openHelper_ob.KEY_DATE, openHelper_ob.KEY_MSG_IN
-                , openHelper_ob.KEY_MSG_OUT};
+        String[] cols = { openHelper_ob.KEY_ID, openHelper_ob.KEY_DATE, openHelper_ob.KEY_MSG
+                , openHelper_ob.KEY_INDEX, openHelper_ob.KEY_TYPE, openHelper_ob.KEY_ANSWERED};
         String[] selectionArgs = {filter+"%"};
         opnToWrite();
         Cursor c = database_ob.query(openHelper_ob.TABLE_NAME, cols, "name LIKE ?",
@@ -74,8 +76,8 @@ public class MessagesTableAdapter {
     }
 
     public Cursor querySingle(int nameId) {
-        String[] cols = { openHelper_ob.KEY_ID, openHelper_ob.KEY_DATE, openHelper_ob.KEY_MSG_IN
-                , openHelper_ob.KEY_MSG_OUT};
+        String[] cols = { openHelper_ob.KEY_ID, openHelper_ob.KEY_DATE, openHelper_ob.KEY_MSG
+                , openHelper_ob.KEY_INDEX, openHelper_ob.KEY_TYPE, openHelper_ob.KEY_ANSWERED};
         opnToWrite();
         Cursor c = database_ob.query(openHelper_ob.TABLE_NAME, cols,
                 openHelper_ob.KEY_ID + "=" + nameId, null, null, null,   openHelper_ob.KEY_DATE + " desc");
@@ -84,14 +86,16 @@ public class MessagesTableAdapter {
 
     }
 
-    public long updateDetails(int id, String date, String name, String price, String quantity, String description) {
+    public long updateDetails(String date, String message, int index, String type, String answered) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(openHelper_ob.KEY_DATE, date);
-        contentValues.put(openHelper_ob.KEY_MSG_IN, name);
-        contentValues.put(openHelper_ob.KEY_MSG_OUT, price);
+        contentValues.put(openHelper_ob.KEY_MSG, message);
+        contentValues.put(openHelper_ob.KEY_INDEX, index);
+        contentValues.put(openHelper_ob.KEY_TYPE, type);
+        contentValues.put(openHelper_ob.KEY_ANSWERED, answered);
         opnToWrite();
         long val = database_ob.update(openHelper_ob.TABLE_NAME, contentValues,
-                openHelper_ob.KEY_ID + " = " + id, null);
+                openHelper_ob.KEY_MSG + " = " + message, null);
         Close();
         return val;
     }
@@ -100,7 +104,7 @@ public class MessagesTableAdapter {
         // TODO Auto-generated method stub
         opnToWrite();
         int val = database_ob.delete(openHelper_ob.TABLE_NAME,
-                openHelper_ob.KEY_MSG_OUT + " = " + message, null);
+                openHelper_ob.KEY_MSG + " = " + message, null);
         Close();
         return val;
     }
@@ -127,9 +131,9 @@ public class MessagesTableAdapter {
         return 1;
     }
 
-    public int getCounted(){
-        String[] cols = { openHelper_ob.KEY_ID, openHelper_ob.KEY_DATE, openHelper_ob.KEY_MSG_IN
-                , openHelper_ob.KEY_MSG_OUT};
+    public int getCount(){
+        String[] cols = { openHelper_ob.KEY_ID, openHelper_ob.KEY_DATE, openHelper_ob.KEY_MSG
+                , openHelper_ob.KEY_INDEX, openHelper_ob.KEY_TYPE, openHelper_ob.KEY_ANSWERED};
         opnToWrite();
         Cursor c = database_ob.query(openHelper_ob.TABLE_NAME, cols, null,
                 null, null, null,  openHelper_ob.KEY_DATE + " desc");

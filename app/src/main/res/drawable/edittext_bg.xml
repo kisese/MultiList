@@ -9,7 +9,7 @@
                 android:color="#006a5acd"
                 />
             <corners
-                android:radius="20dp"/>
+                android:radius="10dp"/>
 
         </shape>
     </item>
@@ -29,7 +29,7 @@
                 android:color="#00ffffff"
                 />
             <corners
-                android:radius="20dp"
+                android:radius="10dp"
                 />
 
         </shape>
