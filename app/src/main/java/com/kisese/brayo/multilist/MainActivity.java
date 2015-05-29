@@ -212,7 +212,7 @@ public class MainActivity extends ActionBarActivity {
                             JSONObject b = mCommentsB.getJSONObject(i);
 
                             question = b.getString("message");
-                            question = String.format(answer.replace("\n", "<br/>"));
+                            question = String.format(question.replace("\n", "<br/>"));
                         }
                        // question = mComments.getJSONObject(1).toString();
                         

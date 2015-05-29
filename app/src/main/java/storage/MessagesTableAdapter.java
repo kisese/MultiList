@@ -8,17 +8,17 @@ import android.database.sqlite.SQLiteDatabase;
 /**
  * Created by Brayo on 5/29/2015.
  */
-public class MessagesAdapter {
+public class MessagesTableAdapter {
 
     SQLiteDatabase database_ob;
     DBOpenHelper openHelper_ob;
     Context context;
 
-    public MessagesAdapter(Context context) {
+    public MessagesTableAdapter(Context context) {
         this.context = context;
     }
 
-    public MessagesAdapter opnToRead() {
+    public MessagesTableAdapter opnToRead() {
         openHelper_ob = new DBOpenHelper(context,
                 openHelper_ob.DATABASE_NAME, null, openHelper_ob.VERSION);
         database_ob = openHelper_ob.getReadableDatabase();
@@ -26,7 +26,7 @@ public class MessagesAdapter {
 
     }
 
-    public MessagesAdapter opnToWrite() {
+    public MessagesTableAdapter opnToWrite() {
         openHelper_ob = new DBOpenHelper(context,
                 openHelper_ob.DATABASE_NAME, null, openHelper_ob.VERSION);
         database_ob = openHelper_ob.getWritableDatabase();
