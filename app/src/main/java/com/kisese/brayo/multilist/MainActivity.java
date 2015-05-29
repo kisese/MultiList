@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -49,6 +50,8 @@ public class MainActivity extends ActionBarActivity {
     private ArrayList<HashMap<String, String>> chatList;
     //private String CHAT_URL = "http://shule.enezaeducation.com/gateway/in/?key=Kuber5246&from=254722833440&text=home&action=incoming";
     private String CHAT_URL = "http://shule.enezaeducation.com/gateway/in/";
+    private JSONArray mComments = null;
+    private JSONArray mCommentsB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +96,7 @@ public class MainActivity extends ActionBarActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String question = chatText.getText().toString();
+                question = chatText.getText().toString();
                 if(items.size() < 1) {
                     items.add(0,  new ListViewItem(question, CustomAdapter.TYPE_QUESTION, false));
                     scrollMyList();
@@ -101,6 +104,7 @@ public class MainActivity extends ActionBarActivity {
                     chatText.setText("");
                     new ProcessActivity().execute(question);
                     scrollMyList();
+                    Toast.makeText(MainActivity.this, question, Toast.LENGTH_LONG).show();
                 }else{
                     items.add(items.size(),  new ListViewItem(question, CustomAdapter.TYPE_QUESTION, false));
                     scrollMyList();
@@ -108,6 +112,7 @@ public class MainActivity extends ActionBarActivity {
                     question = chatText.getText().toString();
                     new ProcessActivity().execute(question);
                     scrollMyList();
+                    Toast.makeText(MainActivity.this, question, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -176,18 +181,47 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... parameters) {
-            String question = parameters[0];
+            //String question = parameters[0];
 
                 try {
+                    /*
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                     params.add(new BasicNameValuePair("key", "Kuber5246"));
                     params.add(new BasicNameValuePair("from", "254722833440"));
                     params.add(new BasicNameValuePair("text", question));
                     params.add(new BasicNameValuePair("action", "incoming"));
+                    //http://shule.enezaeducation.com/gateway/in/?key=Kuber5246&from=254722833440&text=home&action=incoming
 
                     JSONObject json = jsonParser.makeHttpRequest(CHAT_URL, "GET", params);
+                    */
+                  //  JSONArray msg = (JSONArray)json.get("events");
+                    chatList = new ArrayList<HashMap<String, String>>();
+                    //JSONParser jParser = new JSONParser();
+                    JSONObject jsonObject = jsonParser.getJSONFromUrl(CHAT_URL
+                            + "?key=Kuber5246&from=254722833440&text="+question+"&action=incoming");
 
-                    answer = json.getString("messagej");
+                    mComments = jsonObject.getJSONArray("events");
+                    for (int i = 0; i < mComments.length(); i++) {
+                        JSONObject c = mComments.getJSONObject(i);
+
+                        //String id = c.getString("id");
+                        ///String to = c.getString("to");
+                        mCommentsB= c.getJSONArray("messages");
+
+                        for (int o = 0; o < mCommentsB.length(); o++) {
+                            JSONObject b = mCommentsB.getJSONObject(i);
+
+                            answer = b.getString("message");
+                            answer = String.format(answer.replace("\n", "<br/>"));
+                        }
+                       // answer = mComments.getJSONObject(1).toString();
+                        
+                    }
+
+
+
+                    //answer =  chatList.get(2).toString();
+
 
 
                 }catch (JSONException e){
@@ -200,9 +234,11 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String s) {
             pDialog.dismiss();
-
+            Toast.makeText(MainActivity.this, answer, Toast.LENGTH_LONG).show();
             items.add(items.size(), new ListViewItem(answer,
                     CustomAdapter.TYPE_ANSWER, false));
+            scrollMyList();
+
             super.onPostExecute(s);
         }
     }
