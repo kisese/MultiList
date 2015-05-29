@@ -96,23 +96,23 @@ public class MainActivity extends ActionBarActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                question = chatText.getText().toString();
+                answer = chatText.getText().toString();
                 if(items.size() < 1) {
-                    items.add(0,  new ListViewItem(question, CustomAdapter.TYPE_QUESTION, false));
+                    items.add(0,  new ListViewItem(answer, CustomAdapter.TYPE_ANSWER, false));
                     scrollMyList();
-                    question = chatText.getText().toString();
+                    answer = chatText.getText().toString();
                     chatText.setText("");
-                    new ProcessActivity().execute(question);
+                    new ProcessActivity().execute(answer);
                     scrollMyList();
-                    Toast.makeText(MainActivity.this, question, Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, answer, Toast.LENGTH_LONG).show();
                 }else{
-                    items.add(items.size(),  new ListViewItem(question, CustomAdapter.TYPE_QUESTION, false));
+                    items.add(items.size(),  new ListViewItem(answer, CustomAdapter.TYPE_ANSWER, false));
                     scrollMyList();
                     chatText.setText("");
-                    question = chatText.getText().toString();
-                    new ProcessActivity().execute(question);
+                    answer = chatText.getText().toString();
+                    new ProcessActivity().execute(answer);
                     scrollMyList();
-                    Toast.makeText(MainActivity.this, question, Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, answer, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -198,7 +198,7 @@ public class MainActivity extends ActionBarActivity {
                     chatList = new ArrayList<HashMap<String, String>>();
                     //JSONParser jParser = new JSONParser();
                     JSONObject jsonObject = jsonParser.getJSONFromUrl(CHAT_URL
-                            + "?key=Kuber5246&from=254722833440&text="+question+"&action=incoming");
+                            + "?key=Kuber5246&from=254722833440&text="+answer+"&action=incoming");
 
                     mComments = jsonObject.getJSONArray("events");
                     for (int i = 0; i < mComments.length(); i++) {
@@ -211,8 +211,8 @@ public class MainActivity extends ActionBarActivity {
                         for (int o = 0; o < mCommentsB.length(); o++) {
                             JSONObject b = mCommentsB.getJSONObject(i);
 
-                            answer = b.getString("message");
-                            answer = String.format(answer.replace("\n", "<br/>"));
+                            question = b.getString("message");
+                            question = String.format(answer.replace("\n", "<br/>"));
                         }
                        // question = mComments.getJSONObject(1).toString();
                         
@@ -234,9 +234,9 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String s) {
             pDialog.dismiss();
-            Toast.makeText(MainActivity.this, answer, Toast.LENGTH_LONG).show();
-            items.add(items.size(), new ListViewItem(answer,
-                    CustomAdapter.TYPE_ANSWER, false));
+            Toast.makeText(MainActivity.this, question, Toast.LENGTH_LONG).show();
+            items.add(items.size(), new ListViewItem(question,
+                    CustomAdapter.TYPE_QUESTION, false));
             scrollMyList();
 
             super.onPostExecute(s);
