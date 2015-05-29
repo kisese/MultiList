@@ -59,6 +59,8 @@ public class MainActivity extends ActionBarActivity {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         setContentView(R.layout.activity_main); // here, you can create a single layout with a listview
 
+        new ProcessActivity().execute("Home");
+
         listView = (ListView) findViewById(R.id.listView1);
         chatText = (EditText)findViewById(R.id.chatText);
         sendButton = (ImageButton)findViewById(R.id.buttonSend);
@@ -106,10 +108,10 @@ public class MainActivity extends ActionBarActivity {
                     scrollMyList();
                     Toast.makeText(MainActivity.this, answer, Toast.LENGTH_LONG).show();
                 }else{
-                    items.add(items.size(),  new ListViewItem(answer, CustomAdapter.TYPE_ANSWER, false));
+                    items.add(items.size(), new ListViewItem(answer, CustomAdapter.TYPE_ANSWER, false));
                     scrollMyList();
-                    chatText.setText("");
                     answer = chatText.getText().toString();
+                    chatText.setText("");
                     new ProcessActivity().execute(answer);
                     scrollMyList();
                     Toast.makeText(MainActivity.this, answer, Toast.LENGTH_LONG).show();
@@ -171,17 +173,14 @@ public class MainActivity extends ActionBarActivity {
 
 
         protected void onPreExecute(){
-            pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Processing...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
+
         }
 
 
         @Override
         protected String doInBackground(String... parameters) {
-            //String question = parameters[0];
+
+                answer = parameters[0];
 
                 try {
                     /*
@@ -233,10 +232,13 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            pDialog.dismiss();
-            Toast.makeText(MainActivity.this, question, Toast.LENGTH_LONG).show();
+          //  pDialog.dismiss();
+            //Toast.makeText(MainActivity.this, question, Toast.LENGTH_LONG).show();
             items.add(items.size(), new ListViewItem(question,
                     CustomAdapter.TYPE_QUESTION, false));
+
+
+
             scrollMyList();
 
             super.onPostExecute(s);
