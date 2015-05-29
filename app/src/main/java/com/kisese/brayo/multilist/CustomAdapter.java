@@ -63,10 +63,10 @@ public class CustomAdapter extends ArrayAdapter {
         ListViewItem listViewItem = objects.get(position);
         int listViewItemType = getItemViewType(position);
         if (convertView == null) {
-            if (listViewItemType == TYPE_QUESTION) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.question_text, null);
-            }else {
+            if (listViewItemType == TYPE_ANSWER) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.answer_text, null);
+            }else {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.question_text, null);
             }
 
             TextView textView = (TextView) convertView.findViewById(R.id.text);

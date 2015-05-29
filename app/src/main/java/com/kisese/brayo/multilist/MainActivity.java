@@ -43,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
     ArrayList<ListViewItem> items;
 
     private String a, date;
-    String question, answer;
+    String answer, question;
 
     JSONParser jsonParser = new JSONParser();
     private JSONArray mMatch = null;
@@ -214,13 +214,13 @@ public class MainActivity extends ActionBarActivity {
                             answer = b.getString("message");
                             answer = String.format(answer.replace("\n", "<br/>"));
                         }
-                       // answer = mComments.getJSONObject(1).toString();
+                       // question = mComments.getJSONObject(1).toString();
                         
                     }
 
 
 
-                    //answer =  chatList.get(2).toString();
+                    //question =  chatList.get(2).toString();
 
 
 

@@ -1,25 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-   android:gravity="right"
+    android:gravity="left"
     android:layout_gravity="right"
     android:padding="5dp"
-    android:id="@+id/question_root"
-
+    android:id="@+id/answer_root"
     >
-<TextView android:id="@+id/text"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bubble_a"
-    android:textColor="#ffffff"
-    android:layout_gravity="center"
-    android:gravity="center"
-  />
-
-
     <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail
         android:id="@+id/login_circle"
         android:layout_width="40dp"
@@ -27,7 +16,17 @@
         bootstrap:bt_width="20dp"
         bootstrap:bt_height="20dp"
         android:layout_gravity="center"
-        bootstrap:bct_image="@drawable/profile"
+        bootstrap:bct_image="@drawable/ic_launcher"
         bootstrap:bct_size="small"
         ></com.beardedhen.androidbootstrap.BootstrapCircleThumbnail>
+    <TextView android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/bubble_a"
+        android:gravity="center"
+        >
+
+    </TextView>
 </LinearLayout>
